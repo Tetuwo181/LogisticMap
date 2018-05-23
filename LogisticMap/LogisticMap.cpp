@@ -4,6 +4,7 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/functional.h>
 
 #include "LogisticMap.h"
 
@@ -63,12 +64,35 @@ std::vector<double> LogisticMap::Fit(const double a, const double initValue)
 }
 
 
+/*
+先にロジスティック写像を行う際の
+aの値を初期化しておく
+xの初期値によって値を比較したい際に使う
+*/
+std::function<vector<double>(double)> LogisticMap::InitA(const double a)
+{
+	return [=](double initValue) {return Fit(a, initValue);};
+}
+
+/*
+先にロジスティック写像を行う際の
+xの値を初期化しておく
+qの初期値によって値を比較したい際に使う
+*/
+std::function<vector<double>(double)> LogisticMap::InitValue(const double baseValue)
+{
+	return [=](double a) {return Fit(a, baseValue);};
+}
+
+
 namespace py = pybind11;
 
-PYBIND11_MODULE(logistic_map, m) {
-	m.doc() = "Logistic Map";
+PYBIND11_MODULE(LogisticMap, m) {
+	m.doc() = "logisticmap";
 	py::class_<LogisticMap>(m, "LogisticMap")
 		.def(py::init<const uint64_t, const uint64_t>())
 		.def("run", &LogisticMap::Run)
-		.def("fit", &LogisticMap::Fit);
+		.def("fit", &LogisticMap::Fit)
+		.def("init_a", &LogisticMap::InitA)
+		.def("init_value", &LogisticMap::InitValue);
 }
