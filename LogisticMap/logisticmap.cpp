@@ -89,23 +89,6 @@ LogisticMap Initializer(const uint64_t recordNum = 100, const uint64_t iterateNu
 	}
 }
 
-/*
-aの値をあらかじめ初期化した関数を用意する
-*/
-std::function<vector<double>(double)> BuildLogisticMapInitializedA(double a, const uint64_t recordNum = 100, const uint64_t iterateNum = 10000)
-{
-	auto baseLogisticMap = Initializer(recordNum, iterateNum);
-	return baseLogisticMap.InitA(a);
-}
-
-/*
-xの値をあらかじめ初期化した関数を用意する
-*/
-std::function<vector<double>(double)> BuildLogisticMapInitializedX(double initValue, const uint64_t recordNum = 100, const uint64_t iterateNum = 10000)
-{
-	auto baseLogisticMap = Initializer(recordNum, iterateNum);
-	return baseLogisticMap.InitValue(initValue);
-}
 
 namespace py = pybind11;
 
@@ -118,6 +101,4 @@ PYBIND11_MODULE(LogisticMap, m) {
 		.def("init_a", &LogisticMap::InitA)
 		.def("init_value", &LogisticMap::InitValue);
 	m.def("initializer", Initializer);
-	m.def("build_logisticmap_initialized_a", BuildLogisticMapInitializedA);
-	m.def("build_logisticmap_initialized_x", BuildLogisticMapInitializedX);
 }
