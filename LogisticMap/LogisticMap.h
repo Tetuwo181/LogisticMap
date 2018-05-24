@@ -7,8 +7,8 @@ class LogisticMap
 {
 
 private:
-	uint64_t recordNum;// 値を記録しておく配列長
-	uint64_t iterateNum;//極限を求める際の繰り返しの回数　record_numより大きくなければならない
+	const uint64_t recordNum;// 値を記録しておく配列長
+	const uint64_t iterateNum;//極限を求める際の繰り返しの回数　record_numより大きくなければならない
 public:
 	LogisticMap();
 	~LogisticMap();
